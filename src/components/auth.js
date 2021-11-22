@@ -12,10 +12,7 @@ const Auth = () => {
   return (
     <div className="container1">
       {!index ? <Signin /> : <Signup />}
-      <div className="provider">
-        <OutlineButton className="button2" onClick={signInWithGoogle}> GOOGLE  </OutlineButton>
-        <OutlineButton className="button2" onClick={signInWithGithub}> GITHUB  </OutlineButton>
-      </div>
+      
       <p onClick={toggleIndex}>
         {!index ? " New user? Click here ": "Already have an acount?"}
       </p>
