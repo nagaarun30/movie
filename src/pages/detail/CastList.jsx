@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { SwiperSlide, Swiper } from 'swiper/react';
 
 import { useParams } from 'react-router';
 
@@ -13,22 +14,31 @@ const CastList = props => {
 
     useEffect(() => {
         const getCredits = async () => {
-            const res = await tmdbApi.credits(category, props.id);
-            setCasts(res.cast.slice(0, 5));
+            const res = props.item;
+            console.log(res.characters);
+            setCasts(res.characters);
         }
         getCredits();
     }, [category, props.id]);
     return (
-        <div className="casts">
+        <div className="cast-list">
+            <Swiper
+                grabCursor={true}
+                spaceBetween={15}
+                slidesPerView={'auto'}
+            >
             {
                 casts.map((item, i) => (
+                    <SwiperSlide key={i}>
                     <div key={i} className="casts__item">
-                        <div className="casts__item__img" style={{backgroundImage: `url(${apiConfig.w500Image(item.profile_path)})`}}></div>
-                        <p className="casts__item__name">{item.name}</p>
+                        <div className="casts__item__img" style={{backgroundImage: `url(${item.image})`, width: '120px'}}></div>
+                        <p className="casts__item__name">{item.name.full}</p>
                     </div>
+                    </SwiperSlide>
                 ))
             }
-        </div>
+            </Swiper>
+            </div>
     );
 }
 

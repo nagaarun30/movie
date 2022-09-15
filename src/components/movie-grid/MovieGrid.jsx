@@ -14,7 +14,7 @@ const MovieGrid = props => {
     const [items, setItems] = useState([]);
 
     const [page, setPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(0);
+    const [hsaNextPage, setHasNextPage] = useState(true);
 
     const { keyword } = useParams();
 
@@ -25,7 +25,7 @@ const MovieGrid = props => {
                 const params = {};
                 switch(props.category) {
                     case category.movie:
-                        response = await tmdbApi.getMoviesList(movieType.upcoming, {params});
+                        response = await tmdbApi.getMoviesList(movieType.trending, {params});
                         break;
                     default:
                         response = await tmdbApi.getTvList(tvType.popular, {params});
@@ -37,7 +37,7 @@ const MovieGrid = props => {
                 response = await tmdbApi.search(props.category, {params});
             }
             setItems(response.results);
-            setTotalPage(response.total_pages);
+            setHasNextPage(response.hsaNextPage);
         }
         getList();
     }, [props.category, keyword]);
@@ -50,7 +50,8 @@ const MovieGrid = props => {
             };
             switch(props.category) {
                 case category.movie:
-                    response = await tmdbApi.getMoviesList(movieType.popular, {params});
+                    response = await tmdbApi.getMoviesList(movieType.trending, {params});
+                    console.log(response);
                     break;
                 default:
                     response = await tmdbApi.getTvList(tvType.popular, {params});
@@ -76,13 +77,13 @@ const MovieGrid = props => {
                     items.map((item, i) => <MovieCard category={props.category} item={item} key={i}/>)
                 }
             </div>
-            {
-                page < totalPage ? (
+            {/* {
+                hsaNextPage ? ( */}
                     <div className="movie-grid__loadmore">
                         <OutlineButton className="small" onClick={loadMore}>Load more</OutlineButton>
                     </div>
-                ) : null
-            }
+                {/* ) : null
+            } */}
         </>
     );
 }

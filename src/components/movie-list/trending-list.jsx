@@ -12,10 +12,11 @@ import tmdbApi, { category } from '../../api/tmdbApi';
 import apiConfig from '../../api/apiConfig';
 
 import MovieCard from '../movie-card/MovieCard';
+import Loader from '../Loader/Loader';
 
 const Trending = props => {
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(null);
 
     useEffect(() => {
         const getList = async () => {
@@ -38,6 +39,7 @@ const Trending = props => {
     }, []);
 
     return (
+        items == null ? <div className='Loading-Conatainer'><Loader/></div> :(
         <div className="movie-list">
             <Swiper
                 grabCursor={true}
@@ -54,6 +56,7 @@ const Trending = props => {
                 }
             </Swiper>
         </div>
+        )
     );
 }
 

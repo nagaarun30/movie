@@ -11,20 +11,22 @@ import apiConfig from '../../api/apiConfig';
 
 import './hero-slide.scss';
 import { useHistory } from 'react-router';
+import Loader from '../Loader/Loader';
 
 const HeroSlide = () => {
 
     SwiperCore.use([Autoplay]);
 
-    const [movieItems, setMovieItems] = useState([]);
+    const [movieItems, setMovieItems] = useState(null);
 
     useEffect(() => {
         const getMovies = async () => {
             const params = {page: 1}
             try {
                 const response = await tmdbApi.getMoviesList(movieType.popular, {params});
-                setMovieItems(response.results.slice(0, 10));
-                console.log(response);
+                console.log(response.results);
+                setMovieItems(response.results);
+                
             } catch {
                 console.log('error');
             }
@@ -33,6 +35,8 @@ const HeroSlide = () => {
     }, []);
 
     return (
+        movieItems == null ? <div className='Loading-Conatainer'><Loader/></div> :
+        (
         <div className="hero-slide">
             <Swiper
                 modules={[Autoplay]}
@@ -55,8 +59,13 @@ const HeroSlide = () => {
                 movieItems.map((item, i) => <TrailerModal key={i} item={item}/>)
             }
         </div>
+        )
     );
 }
+
+const getMovieItems = () => {
+    return "MOVIE"
+};
 
 const HeroSlideItem = props => {
 
@@ -64,7 +73,7 @@ const HeroSlideItem = props => {
 
     const item = props.item;
 
-    const background = apiConfig.originalImage(item.backdrop_path ? item.backdrop_path : item.poster_path);
+    const background = item.cover;
 
     const setModalActive = async () => {
         const modal = document.querySelector(`#modal_${item.id}`);
@@ -91,7 +100,7 @@ const HeroSlideItem = props => {
                     
                     <h2 className="title">
                         
-                        {item.title.length > 15 ? item.title.substring(0,15) + " ..."  : item.title}
+                        {item.title.english.length > 20 ? item.title.english.substring(0,15) + " ..."  : item.title.english}
                         
                         </h2>
                     <div className="btns">
@@ -103,7 +112,7 @@ const HeroSlideItem = props => {
                 </div>
                
                 <div className="poster">
-                    <img src={apiConfig.originalImage(item.poster_path)} alt="" />
+                    <img src={item.image} alt="" />
                 </div>
             </div>
         </div>

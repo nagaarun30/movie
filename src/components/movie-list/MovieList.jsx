@@ -15,7 +15,7 @@ import MovieCard from '../movie-card/MovieCard';
 
 const MovieList = props => {
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(null);
 
     useEffect(() => {
         const getList = async () => {
@@ -26,19 +26,25 @@ const MovieList = props => {
                 switch(props.category) {
                     case category.movie:
                         response = await tmdbApi.getMoviesList(props.type, {params});
+                        response = response.results;
                         break;
                     default:
-                        response = await tmdbApi.getTvList(props.type, {params});
+                        response = await tmdbApi.getAiring(props.type, {params});
+                        response = response.results;
+                        //console.log(response.results);
                 }
             } else {
-                response = await tmdbApi.similar(props.category, props.id);
+                var response1 = await tmdbApi.detail(props.category, props.id);
+                response = response1.recommendations;
+                console.log(response);
             }
-            setItems(response.results);
+            setItems(response);
         }
         getList();
     }, []);
 
     return (
+        items == null ? <div className='Loading-Conatainer'>Loading...</div> :(
         <div className="movie-list">
             <Swiper
                 grabCursor={true}
@@ -54,6 +60,7 @@ const MovieList = props => {
                 }
             </Swiper>
         </div>
+        )
     );
 }
 

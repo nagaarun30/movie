@@ -9,6 +9,7 @@ import Footer from './components/footer/Footer';
 import { useState } from "react";
 import Router from './config/Routes';
 import Auth from './components/auth';
+import Loader from './components/Loader/Loader';
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
     
     <div>
     {error && <p className="error">{error}</p>}
-    {loading ? <h2>Loading...</h2> : <> {user ? <BrowserRouter>
+    {loading ? <div className='Loading-Conatainer'><Loader/></div> : <> {user ? <BrowserRouter>
       <Route render={props => (
         <>
           <Header {...props} />

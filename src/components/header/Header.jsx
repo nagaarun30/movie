@@ -7,6 +7,7 @@ import './header.scss';
 import { useUserContext } from "../../context/userContext";
 import logo from '../../assets/tmovie.png';
 import profile from '../../App'
+import { OutlineButton } from '../button/Button';
 const headerNav = [
     {
         display: 'Home',
@@ -49,11 +50,11 @@ const Header = () => {
             <div className="header__wrap container">
             <div className="logo1">
                     <img src={logo} alt="" />
-                    <Link to="/">Moview</Link>
+                    <Link to="/">AniView</Link>
                 </div>
                 <div className="logo">
-                    
-                    <img src={logo} alt="" onClick={logoutUser} />
+                    <OutlineButton className="small" onClick={logoutUser}>Logout</OutlineButton>
+                    {/* <img src={logo} alt="" onClick={logoutUser} /> */}
                     
                 </div>
                 

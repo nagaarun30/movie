@@ -25,7 +25,7 @@ const Signup = () => {
       </div>
       <div className="logo2">
         
-        <h3>Moview</h3>
+        <h3>AniView</h3>
       </div>  
       <h2> New User</h2>
       <form onSubmit={onSubmit}>

@@ -13,7 +13,8 @@ export const mediaType = {
 export const movieType = {
     upcoming: 'upcoming',
     popular: 'popular',
-    top_rated: 'top_rated'
+    top_rated: 'top_rated',
+    trending: 'trending',
 }
 
 export const tvType = {
@@ -24,7 +25,7 @@ export const tvType = {
 
 const tmdbApi = {
     getTreanding: (type,params) =>{
-        const url = 'trending/' + mediaType[type] + "/day";
+        const url = '/meta/anilist/trending?page=1&perPage=10';
         return axiosClient.get(url, params);
     },
     getGenre: (type,params) =>{
@@ -32,11 +33,15 @@ const tmdbApi = {
         return axiosClient.get(url, params);
     },
     getMoviesList: (type, params) => {
-        const url = 'movie/' + movieType[type];
+        if(params == null){
+            params = {page:1};
+        }
+        const url = '/meta/anilist/' + movieType[type] + '?perPage=10&' + params.page;
+        //console.log(url);
         return axiosClient.get(url, params);
     },
-    getTvList: (type, params) => {
-        const url = 'tv/' + tvType[type];
+    getAiring: (type, params) => {
+        const url = '/meta/anilist/airing-schedule';
         return axiosClient.get(url, params);
     },
     getVideos: (cate, id) => {
@@ -48,7 +53,7 @@ const tmdbApi = {
         return axiosClient.get(url, params);
     },
     detail: (cate, id, params) => {
-        const url = category[cate] + '/' + id;
+        const url = '/meta/anilist/info/' + id;
         return axiosClient.get(url, params);
     },
     episodes: (id) => {
